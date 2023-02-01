@@ -5,12 +5,21 @@ import { createRoot } from "react-dom/client";
 
 const App = () => {
   const [question, setQuestion] = useState("");
+  const [answer, setAnswer] = useState("");
   function handleChange(event) {
     setQuestion(event.target.value);
   }
-  function handleSubmit(event) {
-    alert("A question was submitted: " + question);
+  async function handleSubmit(event) {
     event.preventDefault();
+    const response = await fetch("/question", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ question_text: question }),
+    });
+    const body = await response.json();
+    setAnswer(body.answer_text);
   }
 
   return (
@@ -24,6 +33,7 @@ const App = () => {
         <textarea value={question} onChange={handleChange} />{" "}
         <input type="submit" value="Ask question" />
       </form>
+      {answer ? <div>{answer}</div> : <></>}
     </div>
   );
 };
