@@ -7,7 +7,7 @@ class AnswerGenerator
     # 3. load pregenerated embeddings to use in constructing prompt
     # 4. compute similarity of question with book text to get context
     # 5. construct prompt using context + hardcoded questions and answers
-    prompt = construct_prompt(question)
+    prompt = PromptTemplater.new.construct_prompt(question)
     # 6. send prompt to completions API for answer
     response = OpenAI::Client.new.completions(
       parameters: {
@@ -21,10 +21,6 @@ class AnswerGenerator
     # 7. cache question and answer
     # 8 return answer
     answer
-  end
-
-  def construct_prompt(question)
-    question
   end
 
   private
