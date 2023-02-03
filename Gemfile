@@ -70,3 +70,5 @@ group :test do
 end
 
 gem "ruby-openai", "~> 3.0"
+
+gem "rover-df", "~> 0.3.4"
