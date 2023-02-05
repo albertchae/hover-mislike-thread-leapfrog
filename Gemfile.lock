@@ -210,6 +210,7 @@ GEM
       sprockets (>= 3.0.0)
     thor (1.2.1)
     timeout (0.3.1)
+    tokenizers (0.2.3-arm64-darwin)
     tzinfo (2.0.5)
       concurrent-ruby (~> 1.0)
     web-console (4.2.0)
@@ -247,6 +248,7 @@ DEPENDENCIES
   ruby-openai (~> 3.0)
   selenium-webdriver
   sprockets-rails
+  tokenizers (~> 0.2.3)
   tzinfo-data
   web-console
   webdrivers
