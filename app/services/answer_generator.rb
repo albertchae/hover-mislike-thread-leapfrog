@@ -8,6 +8,8 @@ class AnswerGenerator
     # 4. compute similarity of question with book text to get context
     # 5. construct prompt using context + hardcoded questions and answers
     prompt = PromptTemplater.new.construct_prompt(question)
+    Rails.logger.info("QUESTION: #{question}")
+    Rails.logger.info("PROMPT: #{prompt}")
     # 6. send prompt to completions API for answer
     response = OpenAI::Client.new.completions(
       parameters: {
@@ -18,6 +20,7 @@ class AnswerGenerator
         model: "text-davinci-003"
       })
     answer = response["choices"][0]["text"].strip
+    Rails.logger.info("ANSWER: #{answer}")
     # 7. cache question and answer
     # 8 return answer
     answer
