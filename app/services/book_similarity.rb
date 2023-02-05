@@ -1,6 +1,8 @@
 require 'matrix'
 
 class BookSimilarity
+  SECTION_SEPARATOR = "\n* "
+
   def initialize(book_embeddings_df)
     # book_embeddings_df is a dataframe with keys of "Title","0", "1",..."4095"
     #
@@ -11,6 +13,18 @@ class BookSimilarity
       embedding_vector = Vector.elements( embedding_row.drop(1).sort.map {|element| element.second} )
       [embedding_row[:title], embedding_vector]
     end
+  end
+
+  # Given a question embedding vector, return a string of relevant sections in the book up to the max length
+  def relevant_sections(question_embedding_vector, book_pages_df)
+    sorted_book_section_titles = book_titles_sorted_by_relevance(question_embedding_vector)
+
+    content = sorted_book_section_titles.map do |title|
+      book_pages_df[book_pages_df[:title] == title][:content].to_a.first
+    end.join(SECTION_SEPARATOR)
+
+    prepended_content = "#{SECTION_SEPARATOR}#{content}"
+
   end
 
   def book_titles_sorted_by_relevance(question_embedding_vector)

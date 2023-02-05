@@ -50,4 +50,30 @@ describe BookSimilarity do
       end
     end
   end
+
+  describe '#relevant_sections' do
+    context 'when given a question and book embedding and pages dataframe' do
+      let(:book_pages_df) {
+        Rover::DataFrame.new([
+                               {title: "Page 1", "content": "Page 1 content"},
+                               {title: "Page 2", "content": "Page 2 content"},
+                               {title: "Page 3", "content": "Page 3 content"}
+                             ])
+      }
+
+      it 'returns the contents of the pages from most similar to least' do
+        relevant_sections = BookSimilarity.new(book_embeddings_df).
+          relevant_sections(Vector[1, 0], book_pages_df)
+
+        expected_context = <<~RELEVANT_SECTIONS.chomp # remove trailing newline
+
+        * Page 2 content
+        * Page 1 content
+        * Page 3 content
+        RELEVANT_SECTIONS
+
+        expect(relevant_sections).to eq(expected_context)
+      end
+    end
+  end
 end
