@@ -13,6 +13,10 @@ class BookSimilarity
     end
   end
 
+  def book_titles_sorted_by_relevance(question_embedding_vector)
+    book_sections_sorted_by_relevance(question_embedding_vector).map {|title, _vector| title}
+  end
+
   def book_sections_sorted_by_relevance(question_embedding_vector)
     # loop over book_embeddings_df and compute dot product and sort
     @book_title_to_embedding_vectors.sort_by do |_title, vector|
