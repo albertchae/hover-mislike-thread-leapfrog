@@ -24,19 +24,35 @@ const App = () => {
   }
 
   return (
-    <div className="main">
-      <img src={bookImage} loading="lazy" />
-      <p className="credits">
-        This is an experiment in using AI to make my book's content more
-        accessible. Ask a question and AI'll answer it in real-time:
-      </p>
+    <>
+      <div className="header">
+        <div className="logo">
+          <a href="https://www.amazon.com/Minimalist-Entrepreneur-Great-Founders-More/dp/0593192397">
+            <img src={bookImage} loading="lazy" />
+          </a>
+          <h1>Ask My Book</h1>
+        </div>
+      </div>
+      <div className="main">
+        <p className="credits">
+          This is an experiment in using AI to make my book's content more
+          accessible. Ask a question and AI'll answer it in real-time:
+        </p>
 
-      <form onSubmit={handleSubmit}>
-        <textarea value={question} onChange={handleChange} />{" "}
-        <input type="submit" value="Ask question" />
-      </form>
-      {answer ? <div>{answer}</div> : <></>}
-    </div>
+        <form onSubmit={handleSubmit}>
+          <textarea
+            id="question"
+            name="question"
+            value={question}
+            onChange={handleChange}
+          ></textarea>
+          <div className="buttons">
+            <button id="ask-button">Ask question</button>
+          </div>
+        </form>
+        {answer ? <div>{answer}</div> : <></>}
+      </div>
+    </>
   );
 };
 
