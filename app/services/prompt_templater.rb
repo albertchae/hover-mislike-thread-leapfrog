@@ -1,10 +1,10 @@
 class PromptTemplater
-  def construct_prompt(question, chosen_book_sections = [])
+  def construct_prompt(question, chosen_book_sections)
     prompt = <<~PROMPT.strip # remove last newline
     Sahil Lavingia is the founder and CEO of Gumroad, and the author of the book The Minimalist Entrepreneur (also known as TME). These are questions and answers by him. Please keep your answers to three sentences maximum, and speak in complete sentences. Stop speaking once your point is made.
 
     Context that may be useful, pulled from The Minimalist Entrepreneur:
-    #{chosen_book_sections.join}
+    #{chosen_book_sections}
     
 
 
