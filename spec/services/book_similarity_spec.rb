@@ -7,9 +7,9 @@ require 'matrix'
 describe BookSimilarity do
   let(:book_embeddings_df) {
     Rover::DataFrame.new([
-                           {title: "Page 1", "0": 0, "1": 1},
-                           {title: "Page 2", "0": 1, "1": 0},
-                           {title: "Page 3", "0": -1, "1": 0}
+                           {"title"=> "Page 1", "0"=> 0, "1"=> 1},
+                           {"title"=> "Page 2", "0"=> 1, "1"=> 0},
+                           {"title"=> "Page 3", "0"=> -1, "1"=> 0}
                          ])
   }
 
@@ -55,9 +55,9 @@ describe BookSimilarity do
     let(:book_pages_df) {
       Rover::DataFrame.new([
                              # tokens is generated with `Tokenizers.from_pretrained("gpt2").encode("Page 1 content").tokens.count`
-                             {title: "Page 1", "content": "Page 1 content", "tokens": 3},
-                             {title: "Page 2", "content": "Page 2 content", "tokens": 3},
-                             {title: "Page 3", "content": "Page 3 content", "tokens": 3}
+                             {"title" => "Page 1", "content"=> "Page 1 content", "tokens"=> 3},
+                             {"title" => "Page 2", "content"=> "Page 2 content", "tokens"=> 3},
+                             {"title" => "Page 3", "content"=> "Page 3 content", "tokens"=> 3}
                            ])
     }
 

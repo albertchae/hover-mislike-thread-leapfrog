@@ -13,7 +13,7 @@ class BookSimilarity
     # - the second element of the array will be a 4096 element Vector suitable for doing dot products
     @book_title_to_embedding_vectors = book_embeddings_df.to_a.map do |embedding_row|
       embedding_vector = Vector.elements( embedding_row.drop(1).sort.map {|element| element.second} )
-      [embedding_row[:title], embedding_vector]
+      [embedding_row["title"], embedding_vector]
     end
   end
 
@@ -31,13 +31,14 @@ class BookSimilarity
     sorted_book_section_titles.each do |title|
       break if sections_length_so_far >= MAX_SECTION_LENGTH
 
-      df_row = book_pages_df[book_pages_df[:title] == title]
-      sections_length_after_appending = sections_length_so_far + df_row[:tokens].to_a.first + SECTION_SEPARATOR_TOKEN_LENGTH
+      df_row = book_pages_df[book_pages_df["title"] == title]
+      sections_length_after_appending = sections_length_so_far + df_row["tokens"].to_a.first + SECTION_SEPARATOR_TOKEN_LENGTH
 
-      content_to_append = SECTION_SEPARATOR + df_row[:content].to_a.first
+      content_to_append = SECTION_SEPARATOR + df_row["content"].to_a.first
       if sections_length_after_appending >= MAX_SECTION_LENGTH
         space_left = MAX_SECTION_LENGTH - sections_length_so_far
-        # What we would really want here is to slice up to `space_left` tokens
+        # What we would really want here is to slice up to `space_left` tokens, but
+        # we'll settle for characters for now
         content_to_append = content_to_append.slice(0, space_left)
       end
 
