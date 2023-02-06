@@ -52,28 +52,47 @@ describe BookSimilarity do
   end
 
   describe '#relevant_sections' do
-    context 'when given a question and book embedding and pages dataframe' do
-      let(:book_pages_df) {
-        Rover::DataFrame.new([
-                               {title: "Page 1", "content": "Page 1 content"},
-                               {title: "Page 2", "content": "Page 2 content"},
-                               {title: "Page 3", "content": "Page 3 content"}
-                             ])
-      }
+    let(:book_pages_df) {
+      Rover::DataFrame.new([
+                             # tokens is generated with `Tokenizers.from_pretrained("gpt2").encode("Page 1 content").tokens.count`
+                             {title: "Page 1", "content": "Page 1 content", "tokens": 3},
+                             {title: "Page 2", "content": "Page 2 content", "tokens": 3},
+                             {title: "Page 3", "content": "Page 3 content", "tokens": 3}
+                           ])
+    }
 
+    context 'when given a question and book embedding and pages dataframe' do
       it 'returns the contents of the pages from most similar to least' do
         relevant_sections = BookSimilarity.new(book_embeddings_df).
           relevant_sections(Vector[1, 0], book_pages_df)
 
-        expected_context = <<~RELEVANT_SECTIONS.chomp # remove trailing newline
+        expected_context = <<~RELEVANT_SECTIONS.chomp # remove trailing newline to match python codebase behavior
 
-        * Page 2 content
-        * Page 1 content
-        * Page 3 content
+          * Page 2 content
+          * Page 1 content
+          * Page 3 content
         RELEVANT_SECTIONS
 
         expect(relevant_sections).to eq(expected_context)
       end
+    end
+
+    context 'when the content is longer than the limit' do
+      it 'returns the content truncated to the limit' do
+        BookSimilarity.const_set(:MAX_SECTION_LENGTH, 8)
+
+        relevant_sections = BookSimilarity.new(book_embeddings_df).
+          relevant_sections(Vector[1, 0], book_pages_df)
+
+        expected_context = <<~RELEVANT_SECTIONS.chomp # remove trailing newline to match python codebase behavior
+
+          * Page 2 content
+          *
+        RELEVANT_SECTIONS
+
+        expect(relevant_sections).to eq(expected_context)
+      end
+
     end
   end
 end
