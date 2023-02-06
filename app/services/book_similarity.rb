@@ -12,7 +12,7 @@ class BookSimilarity
     # - the first element of the array will be the "Title", e.g. "Page 1", "Page 2", etc
     # - the second element of the array will be a 4096 element Vector suitable for doing dot products
     @book_title_to_embedding_vectors = book_embeddings_df.to_a.map do |embedding_row|
-      embedding_vector = Vector.elements( embedding_row.drop(1).sort.map {|element| element.second} )
+      embedding_vector = Vector.elements( embedding_row.except("title").sort.map {|element| element.second} )
       [embedding_row["title"], embedding_vector]
     end
   end
