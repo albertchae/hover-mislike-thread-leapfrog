@@ -74,3 +74,5 @@ gem "ruby-openai", "~> 3.0"
 gem "rover-df", "~> 0.3.4"
 
 gem "tokenizers", "~> 0.2.3"
+
+gem "matrix", "~> 0.4.2"
