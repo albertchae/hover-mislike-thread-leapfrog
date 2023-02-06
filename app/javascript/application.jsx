@@ -3,14 +3,25 @@
 import React, { useState } from "react";
 import { createRoot } from "react-dom/client";
 import bookImage from "./images/book.png";
+import { MagnifyingGlass } from "react-loader-spinner";
 
 const App = () => {
   const [question, setQuestion] = useState("");
   const [answer, setAnswer] = useState("");
+  const [state, setState] = useState("initial");
+
+  function resetState() {
+    setState("initial");
+    setQuestion("");
+  }
+
   function handleChange(event) {
+    setState("initial");
     setQuestion(event.target.value);
   }
+
   async function handleSubmit(event) {
+    setState("loading");
     event.preventDefault();
     const response = await fetch("/question", {
       method: "POST",
@@ -21,6 +32,38 @@ const App = () => {
     });
     const body = await response.json();
     setAnswer(body.answer_text);
+    setState("answered");
+  }
+
+  let answerComponent;
+
+  if (state === "initial") {
+    answerComponent = <></>;
+  } else if (state === "loading") {
+    answerComponent = (
+      <MagnifyingGlass
+        visible={true}
+        height="80"
+        width="80"
+        ariaLabel="MagnifyingGlass-loading"
+        wrapperStyle={{}}
+        wrapperClass="MagnifyingGlass-wrapper"
+        glassColor="#c0efff"
+        color="#e15b64"
+      />
+    );
+  } else if (state === "answered") {
+    answerComponent = (
+      <>
+        <div>
+          <strong>Answer:</strong>
+          {answer}
+        </div>
+        <button id="ask-button" onClick={resetState}>
+          Ask another question
+        </button>
+      </>
+    );
   }
 
   return (
@@ -38,7 +81,6 @@ const App = () => {
           This is an experiment in using AI to make my book's content more
           accessible. Ask a question and AI'll answer it in real-time:
         </p>
-
         <form onSubmit={handleSubmit}>
           <textarea
             id="question"
@@ -46,11 +88,15 @@ const App = () => {
             value={question}
             onChange={handleChange}
           ></textarea>
-          <div className="buttons">
-            <button id="ask-button">Ask question</button>
-          </div>
+          {state == "initial" ? (
+            <div className="buttons">
+              <button id="ask-button">Ask question</button>
+            </div>
+          ) : (
+            <></>
+          )}
         </form>
-        {answer ? <div>{answer}</div> : <></>}
+        {answerComponent}
       </div>
     </>
   );
