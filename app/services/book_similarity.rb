@@ -1,7 +1,7 @@
 require 'matrix'
 
 class BookSimilarity
-  MAX_SECTION_LENGTH = 500
+  MAX_SECTION_LENGTH = 800
   SECTION_SEPARATOR = "\n* "
   SECTION_SEPARATOR_TOKEN_LENGTH = 3 # Tokenizers.from_pretrained("gpt2").encode(SECTION_SEPARATOR).tokens.count
 
