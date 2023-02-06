@@ -13,10 +13,13 @@ class BookProcessor
       {
         title: "Page #{page.number}",
         content: page_text_with_compressed_whitespace,
-        tokens: @tokenizer.encode(page_text_with_compressed_whitespace).tokens.count
+        tokens: @tokenizer.encode(page_text_with_compressed_whitespace).tokens.count + 4
       }
     end
     book_pages_df = Rover::DataFrame.new(pages)
+    # discard pages that go over the embedding input token limit of 2046
+    # https://platform.openai.com/docs/guides/embeddings/embedding-models
+    book_pages_df = book_pages_df[book_pages_df[:tokens] < 2046]
 
     # Write book content CSV for use by askmybook application
     File.write("#{@pdf_path}.pages.csv", book_pages_df.to_csv)
