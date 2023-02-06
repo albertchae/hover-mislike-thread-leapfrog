@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import { createRoot } from "react-dom/client";
+import bookImage from "./images/book.png";
 
 const App = () => {
   const [question, setQuestion] = useState("");
@@ -24,6 +25,7 @@ const App = () => {
 
   return (
     <div className="main">
+      <img src={bookImage} loading="lazy" />
       <p className="credits">
         This is an experiment in using AI to make my book's content more
         accessible. Ask a question and AI'll answer it in real-time:
