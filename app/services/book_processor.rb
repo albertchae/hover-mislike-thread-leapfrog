@@ -24,9 +24,16 @@ class BookProcessor
     # Write book content CSV for use by askmybook application
     File.write("#{@pdf_path}.pages.csv", book_pages_df.to_csv)
 
-
-
-
-
+    # Compute embeddings for each book page with OpenAI API and write to CSV for
+    # similarity checking by application
+    openai_embedding = OpenaiEmbedding.new
+    embedding_csv_headers = ['title', *(0...4096).to_a]
+    CSV.open("#{@pdf_path}.embeddings.csv", "wb") do |csv|
+      csv << embedding_csv_headers
+      book_pages_df.each_row do |page|
+        page_embedding_array = openai_embedding.get_doc_embedding(page[:content])
+        csv << [page[:title], *page_embedding_array]
+      end
+    end
   end
 end

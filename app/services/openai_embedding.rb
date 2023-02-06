@@ -2,6 +2,9 @@ class OpenaiEmbedding
   DOC_EMBEDDINGS_MODEL = "text-search-curie-doc-001"
   QUERY_EMBEDDINGS_MODEL = "text-search-curie-query-001"
 
+  def get_doc_embedding(question)
+    get_embedding(question, DOC_EMBEDDINGS_MODEL)
+  end
 
   def get_query_embedding(question)
     get_embedding(question, QUERY_EMBEDDINGS_MODEL)
