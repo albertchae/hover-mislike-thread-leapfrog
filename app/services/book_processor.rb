@@ -6,14 +6,25 @@ class BookProcessor
   def call
     book = PDF::Reader.new(@pdf_path)
 
+    ascii_encoding_options = {
+      invalid: :replace,  # Replace invalid byte sequences
+      undef:   :replace,  # Replace anything not defined in ASCII
+      replace: ''         # Use a blank for those replacements
+    }
+
     # Parse book contents into dataframe
     pages = book.pages.map do |page|
-      # Replace newlines with spaces and replace multiple spaces with a single space
-      page_text_with_compressed_whitespace = page.text.gsub("\n", " ").gsub(/\s+/, " ")
+
+      processed_page_text = page.text.
+        gsub("\n", " ").                                         # replace newlines with spaces
+        gsub(/\s+/, " ").                                        # replace multiple spaces with a single space
+        encode(Encoding.find('ASCII'), **ascii_encoding_options) # encode to ascii because pdf-reader is spitting
+                                                                 # out characters like ▯ and OpenAI embeddings are
+                                                                 # behaving weirdly with them
       {
         title: "Page #{page.number}",
-        content: page_text_with_compressed_whitespace,
-        tokens: @tokenizer.encode(page_text_with_compressed_whitespace).tokens.count + 4
+        content: processed_page_text,
+        tokens: @tokenizer.encode(processed_page_text, add_special_tokens: false).tokens.count + 4
       }
     end
     book_pages_df = Rover::DataFrame.new(pages)
