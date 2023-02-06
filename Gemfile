@@ -76,3 +76,5 @@ gem "rover-df", "~> 0.3.4"
 gem "tokenizers", "~> 0.2.3"
 
 gem "matrix", "~> 0.4.2"
+
+gem "pdf-reader", "~> 2.11"
