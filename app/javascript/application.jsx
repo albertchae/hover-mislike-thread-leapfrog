@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import { createRoot } from "react-dom/client";
 import bookImage from "./images/book.png";
+import lecturePdfImage from "./images/lecture.png";
 import { MagnifyingGlass } from "react-loader-spinner";
 
 const App = () => {
@@ -69,11 +70,19 @@ const App = () => {
   return (
     <>
       <div className="header">
-        <div className="logo">
+        <div className="logo bookLogo">
           <a href="https://www.amazon.com/Minimalist-Entrepreneur-Great-Founders-More/dp/0593192397">
             <img src={bookImage} loading="lazy" />
           </a>
-          <h1>Ask My Book</h1>
+          <h1>
+            <s>Ask My Book</s>
+          </h1>
+        </div>
+        <div className="logo">
+          <a href="https://web.archive.org/web/20210814083040/http://www.mit.edu/~6.s085/notes/lecture1.pdf">
+            <img src={lecturePdfImage} loading="lazy" />
+          </a>
+          <h1>Actually, ask this PDF</h1>
         </div>
       </div>
       <div className="main">
