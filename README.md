@@ -1,24 +1,25 @@
-# README
+## Setup
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+1. Create and fill in `.env` using `.env.example` as an example.
 
-Things you may want to cover:
+2. Install required Ruby as specified in `.ruby-version`. I used https://github.com/rbenv/rbenv but use whatever you prefer
 
-* Ruby version
+3. Install required postgres as specified in `.tool-versions`. I used https://asdf-vm.com/.
 
-* System dependencies
+4. Install gems
 
-* Configuration
+```
+bundle install
+```
 
-* Database creation
+5. Create database
 
-* Database initialization
+```
+bin/rails db:prepare db:migrate
+```
 
-* How to run the test suite
+6. Turn your PDF into embeddings for GPT-3:
 
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+```
+bin/rake process_book -- --pdf book.pdf
+```
