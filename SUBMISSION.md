@@ -45,6 +45,8 @@ My main goal was to get something working in the recommended time frame, so I tr
 
 - I also didn't do any error handling from the OpenAI completions API because I'm expecting limited traffic. I would add this (and probably pay for OpenAI) if I expected this to be more widely used.
 
+- I committed the pages/embeddings CSVs to the repo directly because that was the easiest way to load them and the content I used was open license. For books in general, I'd try to host the CSV files in a secure location accessible by the app or use a database for them instead.
+
 
 ## Lessons learned
 
