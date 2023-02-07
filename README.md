@@ -1,3 +1,7 @@
+## App
+
+Currently hosted at https://hover-mislike-thread-leapfrog.herokuapp.com/
+
 ## Setup
 
 1. Create and fill in `.env` using `.env.example` as an example.
